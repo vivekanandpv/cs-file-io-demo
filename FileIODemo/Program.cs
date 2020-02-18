@@ -12,6 +12,7 @@ namespace FileIODemo
         static void Main(string[] args)
         {
             FileCopier("lorem.txt", "lorem-copy.txt");
+            FileCopierBinary("image.jpg", "image-copy.jpg");
         }
 
         static void FileCopier(string inputFileName, string outputFileName)
@@ -55,6 +56,23 @@ namespace FileIODemo
                         outputStreamWriter.WriteLine(line);
                     }
                     
+                }
+            }
+        }
+
+        static void FileCopierBinary(string inputFileName, string outputFileName)
+        {
+            using (var inputStream = File.Open(inputFileName, FileMode.Open, FileAccess.Read))
+            using (var outputStream = File.Create(outputFileName))
+            {
+                const int EOF = -1;
+
+                int byteRead = inputStream.ReadByte();  //  if the file is empty, -1 is returned. therefore int.
+
+                while (byteRead != EOF)
+                {
+                    outputStream.WriteByte((byte) byteRead);
+                    byteRead = inputStream.ReadByte();
                 }
             }
         }
