@@ -11,15 +11,38 @@ namespace FileIODemo
     {
         static void Main(string[] args)
         {
-            var fileName = "myfile.txt";
+            WriteBinaryStream();
+            WriteTextStream();
+        }
 
-            var content = "Here is the content to be written";
+        private static void WriteBinaryStream()
+        {
+            var fileName = "mybinaryfile.txt";
 
-            File.WriteAllText(fileName, content);
+            var fs = File.Open(fileName, FileMode.OpenOrCreate);
 
-            File.AppendAllText(fileName, "These lines are appended");
+            var binaryWriter = new BinaryWriter(fs);
 
-            File.Copy("image.jpg", "copy_image.jpg");
+            var binaryBuffer = Encoding.UTF8.GetBytes("Hello there!");
+
+            binaryWriter.Write(binaryBuffer);
+
+            binaryWriter.Close();
+        }
+
+        static void WriteTextStream()
+        {
+            var fileName = "mytextfile.txt";
+
+            var fs = File.Open(fileName, FileMode.OpenOrCreate);
+
+            var textWriter = new StreamWriter(fs);
+
+            var textBuffer = "This is text";
+
+            textWriter.Write(textBuffer);
+
+            textWriter.Close();
         }
     }
 }
